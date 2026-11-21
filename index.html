@@ -29,8 +29,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .t-none{background:var(--tan);color:var(--brown)}
 
 
-.hero{max-width:1000px;min-height:88vh;margin:0 auto;padding:48px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.hero{max-width:1000px;min-height:100vh;min-height:100svh;box-sizing:border-box;margin:0 auto;padding:48px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
 .mark{display:block;line-height:0}
+.title .hl{color:var(--red)}
 .title{margin:4px 0 0;font-size:clamp(40px,6vw,68px);line-height:1;color:var(--brown)}
 .sub{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--muted);margin-top:6px}
 .sub a{color:var(--muted);text-decoration:none;padding:6px 2px}
@@ -136,7 +137,7 @@ footer p{margin:0}
 .keyrow button{border:0;border-radius:10px;background:var(--brown);color:var(--cream);font:700 14px Rubik,sans-serif;padding:8px 14px;cursor:pointer}
 .hidden{display:none!important}
 @media (max-width:600px){
-  .hero{min-height:85svh;padding:32px 16px 24px;gap:12px}
+  .hero{padding:32px 16px 24px;gap:12px}
   .mark svg{width:56px;height:56px}
   .title{font-size:36px}
   .pill{font-size:12px;padding:7px 14px}
@@ -186,8 +187,8 @@ footer p{margin:0}
 
 <section class="hero">
   <a class="mark" href="#" id="home" aria-label="Is it a shit game? home"><svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true"><path fill="#502314" d="M25 3c2.5 2.6 5.5 4.6 5.5 7.6 0 1.6-.9 2.8-2.2 3.4 4.6.6 7.6 3.2 7.6 6.5 0 1.4-.5 2.6-1.5 3.6C39 25.3 43 28.5 43 32.6 43 38.4 34.6 43 24 43S5 38.4 5 32.6c0-4.1 4-7.3 8.6-8.5-1-1-1.6-2.2-1.6-3.6 0-3.3 3-5.9 7.6-6.5-1.4-.7-2.1-1.9-2.1-3.3C17.5 6.9 22.5 5.8 25 3z"/><circle cx="18" cy="31" r="3" fill="#F5EBDC"/><circle cx="30" cy="31" r="3" fill="#F5EBDC"/><circle cx="18.6" cy="31.4" r="1.4" fill="#2D1308"/><circle cx="30.6" cy="31.4" r="1.4" fill="#2D1308"/><path d="M19 37c3 2.4 7 2.4 10 0" stroke="#F5EBDC" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></a>
-  <h1 class="title display">Is it a shit game?</h1>
-  <p class="pill">Three verdicts. Zero nuance.</p>
+  <h1 class="title display">Is it a <span class="hl">shit</span> video game?</h1>
+  <p class="pill">Simple verdict. Zero nuance.</p>
   <p class="lede">Type a game. We check what the internet says and tell you if it's shit or not.</p>
   <form class="search" id="form" autocomplete="off">
     <label class="sr" for="q">Game name</label>
