@@ -70,9 +70,11 @@ form.search{position:relative;width:100%;max-width:700px;margin-top:6px}
 .step.done .dot{background:var(--brown)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.verdict{width:100%;background:var(--paper);border:3px solid var(--brown);border-radius:30px;padding:28px;box-shadow:0 8px 0 var(--brown);display:flex;flex-wrap:wrap;gap:32px;text-align:left}
-.cover{position:relative;flex:0 0 230px}
-.cover img,.cover .ph{width:230px;aspect-ratio:2/3;object-fit:cover;border-radius:16px;border:3px solid var(--brown);display:block;background:var(--tan)}
+.verdict{width:100%;background:var(--paper);border:3px solid var(--brown);border-radius:30px;padding:28px;box-shadow:0 8px 0 var(--brown);display:grid;grid-template-columns:230px minmax(0,1fr);column-gap:32px;row-gap:14px;align-items:start;text-align:left}
+.cover{position:relative;grid-column:1;grid-row:1 / span 2}
+.vhead{grid-column:2;display:flex;flex-direction:column;gap:10px}
+.verdict .vbody{grid-column:2}
+.cover img,.cover .ph{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:16px;border:3px solid var(--brown);display:block;background:var(--tan)}
 .sticker{position:absolute;top:14px;right:-14px;transform:rotate(6deg);border:3px solid var(--cream);border-radius:14px;padding:7px 12px 9px;line-height:1;box-shadow:0 4px 0 rgba(45,19,8,.35);display:flex;flex-direction:column;align-items:flex-start;gap:2px;max-width:200px}
 .sticker small{font:700 10px Rubik,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
 .sticker span{font-size:18px}
@@ -152,10 +154,14 @@ footer p{margin:0}
   .btn .go{display:block}
   .results{top:calc(100% + 12px);border-radius:20px}
   .loading{padding:18px}
-  .verdict{padding:18px;gap:18px;border-radius:24px}
+  .verdict{padding:16px;grid-template-columns:92px minmax(0,1fr);column-gap:14px;row-gap:16px;border-radius:24px}
   .verdict .sticker{display:none}
-  .cover{flex-basis:100%}
-  .cover img,.cover .ph{width:140px}
+  .cover{grid-row:1}
+  .vhead{align-self:center;gap:6px}
+  .vhead .kicker{font-size:11px}
+  .vname{font-size:32px}
+  .verdict .vbody{grid-column:1 / -1}
+  .cover img,.cover .ph{border-radius:10px}
   .badge{padding:10px 16px 12px}
   .critic{padding:12px 14px}
   .critic .num{font-size:34px}
@@ -433,9 +439,8 @@ footer p{margin:0}
       (pt !== 'none' && ct !== 'none' && pt !== ct && r.basis === 'players' ? '<span class="note">The critics disagree. Nobody asked them.</span>' : '') + '</div>';
     verdictEl.innerHTML =
       '<div class="cover">' + cover + sticker(r) + '</div>' +
+      '<div class="vhead"><p class="kicker">' + esc(meta) + '</p><h2 class="vname display">' + esc(r.name) + '</h2></div>' +
       '<div class="vbody">' +
-        '<p class="kicker">' + esc(meta) + '</p>' +
-        '<h2 class="vname display">' + esc(r.name) + '</h2>' +
         '<div class="say"><span class="who display">' + who + '</span><p class="badge display caps t-' + v + '">' + LABEL[v] + '</p></div>' +
         (r.flipFrom ? '<p class="flip">Verdict flipped! Last time: “' + LABEL[r.flipFrom] + '”</p>' : '') +
         playersBlock + critic +
