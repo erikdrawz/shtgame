@@ -28,17 +28,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .t-giant{background:var(--red);color:#fff}
 .t-none{background:var(--tan);color:var(--brown)}
 
-header.top{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--brown)}
-.logo .t{display:flex;flex-direction:column;line-height:.92;font-size:27px}
-.logo .t span:last-child{color:var(--red)}
-nav.main{display:flex;flex-wrap:wrap;gap:8px 28px;font-size:21px}
-nav.main a{text-decoration:none}
 
-.hero{max-width:1000px;margin:0 auto;padding:40px 24px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+.hero{max-width:1000px;min-height:88vh;margin:0 auto;padding:48px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.mark{display:block;line-height:0}
+.title{margin:4px 0 0;font-size:clamp(40px,6vw,68px);line-height:1;color:var(--brown)}
+.sub{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--muted);margin-top:6px}
+.sub a{color:var(--muted);text-decoration:none;padding:6px 2px}
+.sub a:hover{color:var(--brown);text-decoration:underline}
 .pill{margin:0;display:inline-block;background:var(--brown);color:var(--cream);border-radius:999px;padding:8px 18px;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
-h1.big{margin:0;font-size:clamp(56px,10vw,120px);line-height:.9;color:var(--brown)}
-.lede{margin:0;max-width:680px;font-size:22px;line-height:1.45;color:#5A3A2A}
+.lede{margin:0 0 10px;max-width:560px;font-size:19px;line-height:1.45;color:#5A3A2A}
 
 form.search{position:relative;width:100%;max-width:700px;margin-top:6px}
 .bar{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--brown);border-radius:999px;padding:8px 8px 8px 22px;box-shadow:0 6px 0 var(--brown)}
@@ -138,12 +136,9 @@ footer p{margin:0}
 .keyrow button{border:0;border-radius:10px;background:var(--brown);color:var(--cream);font:700 14px Rubik,sans-serif;padding:8px 14px;cursor:pointer}
 .hidden{display:none!important}
 @media (max-width:600px){
-  header.top{padding:14px 16px;gap:10px 16px}
-  .logo{gap:8px}
-  .logo svg{width:40px;height:40px}
-  .logo .t{font-size:20px}
-  nav.main{font-size:16px;gap:6px 16px}
-  .hero{padding:20px 16px 20px;gap:14px}
+  .hero{min-height:85svh;padding:32px 16px 24px;gap:12px}
+  .mark svg{width:56px;height:56px}
+  .title{font-size:36px}
   .pill{font-size:12px;padding:7px 14px}
   .lede{font-size:17px}
   .bar{padding:5px 5px 5px 18px;gap:8px;box-shadow:0 5px 0 var(--brown)}
@@ -188,18 +183,12 @@ footer p{margin:0}
 </style>
 </head>
 <body>
-<header class="top">
-  <a class="logo" href="#" id="home" aria-label="Is it a shit game? home">
-    <svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true"><path fill="#502314" d="M25 3c2.5 2.6 5.5 4.6 5.5 7.6 0 1.6-.9 2.8-2.2 3.4 4.6.6 7.6 3.2 7.6 6.5 0 1.4-.5 2.6-1.5 3.6C39 25.3 43 28.5 43 32.6 43 38.4 34.6 43 24 43S5 38.4 5 32.6c0-4.1 4-7.3 8.6-8.5-1-1-1.6-2.2-1.6-3.6 0-3.3 3-5.9 7.6-6.5-1.4-.7-2.1-1.9-2.1-3.3C17.5 6.9 22.5 5.8 25 3z"/><circle cx="18" cy="31" r="3" fill="#F5EBDC"/><circle cx="30" cy="31" r="3" fill="#F5EBDC"/><circle cx="18.6" cy="31.4" r="1.4" fill="#2D1308"/><circle cx="30.6" cy="31.4" r="1.4" fill="#2D1308"/><path d="M19 37c3 2.4 7 2.4 10 0" stroke="#F5EBDC" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
-    <span class="t display"><span>Is it a shit</span><span>game?</span></span>
-  </a>
-  <nav class="main display" aria-label="Main"><a href="#fresh">Freshly rated</a><a href="#science">The science</a></nav>
-</header>
 
 <section class="hero">
-  <h1 class="sr">Is it a shit game?</h1>
+  <a class="mark" href="#" id="home" aria-label="Is it a shit game? home"><svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true"><path fill="#502314" d="M25 3c2.5 2.6 5.5 4.6 5.5 7.6 0 1.6-.9 2.8-2.2 3.4 4.6.6 7.6 3.2 7.6 6.5 0 1.4-.5 2.6-1.5 3.6C39 25.3 43 28.5 43 32.6 43 38.4 34.6 43 24 43S5 38.4 5 32.6c0-4.1 4-7.3 8.6-8.5-1-1-1.6-2.2-1.6-3.6 0-3.3 3-5.9 7.6-6.5-1.4-.7-2.1-1.9-2.1-3.3C17.5 6.9 22.5 5.8 25 3z"/><circle cx="18" cy="31" r="3" fill="#F5EBDC"/><circle cx="30" cy="31" r="3" fill="#F5EBDC"/><circle cx="18.6" cy="31.4" r="1.4" fill="#2D1308"/><circle cx="30.6" cy="31.4" r="1.4" fill="#2D1308"/><path d="M19 37c3 2.4 7 2.4 10 0" stroke="#F5EBDC" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></a>
+  <h1 class="title display">Is it a shit game?</h1>
   <p class="pill">Three verdicts. Zero nuance.</p>
-  <p class="lede">Type a game. We ask the critics and the players, then flatten it all into the only opinions the internet actually has.</p>
+  <p class="lede">Type a game. We check what the internet says and tell you if it's shit or not.</p>
   <form class="search" id="form" autocomplete="off">
     <label class="sr" for="q">Game name</label>
     <div class="bar">
@@ -209,6 +198,7 @@ footer p{margin:0}
     </div>
     <div class="results hidden" id="results" role="listbox" aria-label="Matching games"></div>
   </form>
+  <nav class="sub" aria-label="More"><a href="#fresh">Freshly rated</a><span aria-hidden="true">·</span><a href="#science">The science</a></nav>
   <p class="status" id="status" role="status"></p>
   <div class="loading hidden" id="loading"></div>
   <div class="verdict hidden" id="verdict"></div>
