@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it a shit game?</title>
+<meta name="description" content="Type a game. Critics and players get flattened into the only opinions the internet has: not shit, shit, or gigantic shit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,700..900,0..100&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F5EBDC;--paper:#FBF4EA;--brown:#502314;--deep:#2D1308;--tan:#E3CFB4;--muted:#6B4A3A;
+  --green:#198737;--orange:#FF8732;--red:#D62300;--yellow:#F2A93B;
+  /* Cooper Black if installed (or once a licensed webfont is added), soft Fraunces otherwise */
+  --display:'Cooper Black','Cooper Std','CooperBlack','Fraunces',Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--deep);font-family:Rubik,system-ui,sans-serif}
+.display{font-family:var(--display);font-weight:900;font-synthesis:none;font-variation-settings:"SOFT" 100,"opsz" 144;letter-spacing:-.01em}
+.caps{text-transform:uppercase}
+a{color:var(--brown)}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+
+/* tier colours */
+.t-not{background:var(--green);color:#fff}
+.t-shit{background:var(--orange);color:var(--deep)}
+.t-giant{background:var(--red);color:#fff}
+.t-none{background:var(--tan);color:var(--brown)}
+
+header.top{max-width:1200px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--brown)}
+.logo .t{display:flex;flex-direction:column;line-height:.92;font-size:27px}
+.logo .t span:last-child{color:var(--red)}
+nav.main{display:flex;flex-wrap:wrap;gap:8px 28px;font-size:21px}
+nav.main a{text-decoration:none}
+
+.hero{max-width:1000px;margin:0 auto;padding:28px 24px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+.pill{margin:0;display:inline-block;background:var(--brown);color:var(--cream);border-radius:999px;padding:8px 18px;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+h1.big{margin:0;font-size:clamp(56px,10vw,120px);line-height:.9;color:var(--brown)}
+.lede{margin:0;max-width:640px;font-size:19px;line-height:1.45;color:#5A3A2A}
+
+form.search{position:relative;width:100%;max-width:700px;margin-top:6px}
+.bar{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--brown);border-radius:999px;padding:8px 8px 8px 22px;box-shadow:0 6px 0 var(--brown)}
+.bar input{flex:1;min-width:0;border:0;outline:none;background:transparent;font:500 20px Rubik,sans-serif;color:var(--deep);padding:12px 0}
+.bar input::placeholder{color:#8A6A58}
+.btn{flex:none;border:0;border-radius:999px;background:var(--yellow);color:var(--deep);font-family:var(--display);font-weight:900;font-synthesis:none;font-variation-settings:"SOFT" 100;font-size:21px;padding:0 26px;min-height:52px;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.results{position:absolute;z-index:10;top:calc(100% + 18px);left:0;right:0;background:#fff;border:3px solid var(--brown);border-radius:26px;padding:8px;box-shadow:0 10px 0 rgba(80,35,20,.25);text-align:left;max-height:62vh;overflow:auto}
+.res{display:flex;align-items:center;gap:14px;width:100%;border:0;background:transparent;border-radius:18px;padding:8px 12px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.res:hover,.res:focus-visible{background:var(--cream)}
+.thumb{width:42px;height:63px;border-radius:8px;object-fit:cover;flex:none;background:var(--tan);display:block}
+.res .txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.res .n{font-weight:700;font-size:17px}
+.res .m{font-size:13px;color:var(--muted)}
+.chip{flex:none;border-radius:999px;padding:7px 12px;font-weight:700;font-size:13px;text-transform:uppercase;white-space:nowrap}
+.chip.new{border:2px dashed var(--brown);color:var(--brown);background:transparent}
+.resfoot{margin:4px 0 0;padding:10px 12px 6px;border-top:2px solid #F0E2CF;font-size:12px;color:var(--muted)}
+
+.status{min-height:26px;font-size:16px;font-weight:600;color:var(--muted);margin:0}
+.status.err{color:#A23D00}
+.loading{width:100%;max-width:700px;background:var(--paper);border:3px solid var(--brown);border-radius:26px;padding:22px 26px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.loading p{margin:0}
+.step{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:600;opacity:.4}
+.step.on,.step.done{opacity:1}
+.dot{width:18px;height:18px;border-radius:50%;border:3px solid var(--brown);flex:none}
+.step.on .dot{border-top-color:transparent;animation:spin .8s linear infinite}
+.step.done .dot{background:var(--brown)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.verdict{width:100%;background:var(--paper);border:3px solid var(--brown);border-radius:30px;padding:28px;box-shadow:0 8px 0 var(--brown);display:flex;flex-wrap:wrap;gap:32px;text-align:left}
+.cover{position:relative;flex:0 0 230px}
+.cover img,.cover .ph{width:230px;aspect-ratio:2/3;object-fit:cover;border-radius:16px;border:3px solid var(--brown);display:block;background:var(--tan)}
+.sticker{position:absolute;top:14px;right:-14px;transform:rotate(6deg);border:3px solid var(--cream);border-radius:14px;padding:7px 12px 9px;line-height:1;box-shadow:0 4px 0 rgba(45,19,8,.35);display:flex;flex-direction:column;align-items:flex-start;gap:2px;max-width:200px}
+.sticker small{font:700 10px Rubik,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+.sticker span{font-size:18px}
+.vbody{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.kicker{margin:0;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.vname{margin:0;font-size:clamp(36px,5.5vw,62px);line-height:.95;color:var(--brown)}
+.say{margin:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.say .who{font-size:clamp(22px,3vw,30px);color:var(--brown)}
+.badge{margin:0;transform:rotate(-2deg);border-radius:18px;padding:12px 22px 14px;font-size:clamp(30px,5vw,54px);line-height:1;border:3px solid var(--brown)}
+.flip{margin:0;background:var(--yellow);color:var(--deep);border-radius:12px;padding:8px 14px;font-weight:700}
+.players{width:100%;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 22px;font-size:16px}
+.meter{position:relative;height:18px;background:var(--tan);border-radius:999px}
+.meter i{display:block;height:100%;border-radius:999px}
+.meter b{position:absolute;top:-6px;bottom:-6px;width:4px;background:var(--brown);border-radius:2px}
+.ticks{position:relative;height:16px;font-size:12px;font-weight:700;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%)}
+.critic{width:100%;border:3px solid var(--tan);border-radius:20px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.critic .num{font-size:42px;color:var(--brown);line-height:1}
+.critic .line{font-size:19px;color:var(--brown)}
+.note{margin:0;font-size:15px;line-height:1.5;color:#4A2E22}
+.attr{margin:0;font-size:13px;color:var(--muted)}
+
+section.fresh{max-width:1200px;margin:0 auto;padding:48px 24px 64px}
+.fhead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:26px}
+.fhead h2{margin:0;font-size:54px;line-height:1;color:var(--brown)}
+.fhead p{margin:6px 0 0;font-size:17px;color:#5A3A2A}
+.linkbtn{background:none;border:0;padding:8px 0;font:600 14px Rubik,sans-serif;color:var(--brown);text-decoration:underline;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px}
+.card{background:var(--paper);border:3px solid var(--brown);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0;font:inherit;color:inherit}
+.card:hover{transform:translateY(-2px)}
+.card .art{position:relative;aspect-ratio:2/3;background:var(--tan);border-bottom:3px solid var(--brown)}
+.card .art img{width:100%;height:100%;object-fit:cover;display:block}
+.card .art .sticker{right:10px;max-width:85%}
+.card .art .sticker span{font-size:16px}
+.card .b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;font-weight:800;line-height:1.2}
+.card .m{margin:0;font-size:13px;color:var(--muted)}
+.scores{margin-top:auto;padding-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sbox{border-radius:12px;padding:8px 10px;display:flex;flex-direction:column}
+.sbox .l{font-size:10px;font-weight:700;letter-spacing:.12em}
+.sbox .v{font-family:var(--display);font-weight:900;font-synthesis:none;font-size:25px;line-height:1.1}
+.sbox .w{font-size:11px;font-weight:700;text-transform:uppercase}
+.sbox.crit{background:transparent;border:2px solid var(--tan);color:#4A2E22}
+
+.science{background:var(--brown);color:var(--cream)}
+.science .in{max-width:1200px;margin:0 auto;padding:64px 24px;display:flex;flex-direction:column;gap:28px}
+.science h2{margin:0;font-size:54px;line-height:1}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.tier{border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:8px}
+.tier .r{font-size:48px;line-height:1}
+.tier .n{font-size:26px;line-height:1.05}
+.tier p{margin:0;font-size:16px;line-height:1.5}
+.science .rules{margin:0;font-size:17px;line-height:1.6;max-width:760px}
+
+.empty{border:3px dashed var(--tan);border-radius:20px;padding:32px;text-align:center;color:var(--muted);font-size:17px}
+footer{max-width:1200px;margin:0 auto;padding:28px 24px 48px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 28px;font-size:14px;color:#5A3A2A}
+footer p{margin:0}
+.keyrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.keyrow input{min-width:240px;border:2px solid var(--brown);border-radius:10px;padding:8px 10px;font:14px Rubik,sans-serif}
+.keyrow button{border:0;border-radius:10px;background:var(--brown);color:var(--cream);font:700 14px Rubik,sans-serif;padding:8px 14px;cursor:pointer}
+.hidden{display:none!important}
+@media (max-width:600px){.cover{flex-basis:100%}.cover img,.cover .ph{width:170px}.verdict .sticker{right:auto;left:110px}.verdict{padding:20px}.fhead h2,.science h2{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#" id="home" aria-label="Is it a shit game? home">
+    <svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true"><path fill="#502314" d="M25 3c2.5 2.6 5.5 4.6 5.5 7.6 0 1.6-.9 2.8-2.2 3.4 4.6.6 7.6 3.2 7.6 6.5 0 1.4-.5 2.6-1.5 3.6C39 25.3 43 28.5 43 32.6 43 38.4 34.6 43 24 43S5 38.4 5 32.6c0-4.1 4-7.3 8.6-8.5-1-1-1.6-2.2-1.6-3.6 0-3.3 3-5.9 7.6-6.5-1.4-.7-2.1-1.9-2.1-3.3C17.5 6.9 22.5 5.8 25 3z"/><circle cx="18" cy="31" r="3" fill="#F5EBDC"/><circle cx="30" cy="31" r="3" fill="#F5EBDC"/><circle cx="18.6" cy="31.4" r="1.4" fill="#2D1308"/><circle cx="30.6" cy="31.4" r="1.4" fill="#2D1308"/><path d="M19 37c3 2.4 7 2.4 10 0" stroke="#F5EBDC" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+    <span class="t display"><span>Is it a shit</span><span>game?</span></span>
+  </a>
+  <nav class="main display" aria-label="Main"><a href="#fresh">Freshly rated</a><a href="#science">The science</a></nav>
+</header>
+
+<section class="hero">
+  <p class="pill">Three verdicts. Zero nuance.</p>
+  <h1 class="big display">Is it a<br>shit game?</h1>
+  <p class="lede">Type a game. We ask the critics, we ask the players, then flatten it all into the only opinions the internet actually has.</p>
+  <form class="search" id="form" autocomplete="off">
+    <label class="sr" for="q">Game name</label>
+    <div class="bar">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#502314" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      <input id="q" type="search" placeholder="Search any game…" aria-controls="results">
+      <button class="btn" type="submit">Judge it!</button>
+    </div>
+    <div class="results hidden" id="results" role="listbox" aria-label="Matching games"></div>
+  </form>
+  <p class="status" id="status" role="status"></p>
+  <div class="loading hidden" id="loading"></div>
+  <div class="verdict hidden" id="verdict"></div>
+</section>
+
+<section class="fresh" id="fresh">
+  <div class="fhead">
+    <div><h2 class="display">Freshly rated</h2><p>Every game you judge lands here. For now the list lives in your browser only.</p></div>
+    <button class="linkbtn" type="button" id="clear">Clear list</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="science" id="science">
+  <div class="in">
+    <h2 class="display">The science</h2>
+    <div class="tiers">
+      <div class="tier t-not"><span class="r display">80+</span><span class="n display caps">Not shit!</span><p>Congratulations. It's allowed to exist.</p></div>
+      <div class="tier t-shit"><span class="r display">50–79</span><span class="n display caps">Shit!</span><p>No "mixed". No "it's fine, actually". No 7/10. A 79 is shit.</p></div>
+      <div class="tier t-giant"><span class="r display">49 and below</span><span class="n display caps">Gigantic shit!</span><p>Refund window? Closed. Uninstall anyway.</p></div>
+    </div>
+    <p class="rules">Players outrank critics: the big verdict is always the players'. Critics get a small box underneath, as is tradition in every comment section. If there aren't enough players yet, the critics decide, and we're not happy about it either.</p>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <p>Scores <a href="https://videogamescritic.com" target="_blank" rel="noopener">Powered by VideoGamesCritic</a>. A parody, not affiliated with them.</p>
+  </div>
+  <div>
+    <p id="quota">Free API: 60 lookups per hour.</p>
+    <details>
+      <summary>Have a VGC API key?</summary>
+      <div class="keyrow"><label class="sr" for="key">API key</label><input id="key" type="password" placeholder="vgc_…"><button type="button" id="savekey">Save key</button></div>
+    </details>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var API = 'https://videogamescritic.com/api/v1';
+  var NOT_SHIT = 80, SHIT = 50;
+  var LABEL = { not: "It's not shit!", shit: "It's shit!", giant: "It's gigantic shit!", none: "Nobody knows!" };
+  var SHORT = { not: 'Not shit', shit: 'Shit', giant: 'Gigantic shit', none: 'No score' };
+  var STEPS = ['Asking the critics…', 'Asking the players…', 'Removing all nuance…'];
+
+  var store = {
+    get: function(k, d){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+    set: function(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  };
+  var apiKey = store.get('isg.key', '');
+  var judged = store.get('isg.judged', []);
+  var searchCache = store.get('isg.search', {});
+  var lastResults = [], lastQuery = '', debounce = null, busy = false;
+
+  var $ = function(id){ return document.getElementById(id); };
+  var q = $('q'), resultsEl = $('results'), statusEl = $('status'), loadingEl = $('loading'), verdictEl = $('verdict'), gridEl = $('grid');
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function tierOf(score){ return score == null ? 'none' : score >= NOT_SHIT ? 'not' : score >= SHIT ? 'shit' : 'giant'; }
+  function timeAgo(t){
+    var s = Math.round((Date.now() - t) / 1000);
+    if (s < 60) return 'just now';
+    var m = Math.round(s / 60); if (m < 60) return m + ' min ago';
+    var h = Math.round(m / 60); if (h < 24) return h + ' h ago';
+    return Math.round(h / 24) + ' days ago';
+  }
+  function setStatus(msg, isErr){ statusEl.textContent = msg || ''; statusEl.className = 'status' + (isErr ? ' err' : ''); }
+
+  function api(path){
+    var headers = {};
+    if (apiKey) headers.Authorization = 'Bearer ' + apiKey;
+    return fetch(API + path, { headers: headers }).then(function(r){
+      var rem = r.headers.get('X-RateLimit-Remaining');
+      if (rem !== null) $('quota').textContent = rem + ' free lookups left this ' + (apiKey ? 'day' : 'hour') + '.';
+      if (r.status === 429) throw new Error('rate');
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    });
+  }
+  function apiError(e){
+    if (e && e.message === 'rate') return 'Hit the free limit (60 lookups an hour). Wait a bit, or add a free API key at the bottom.';
+    return 'Couldn’t reach VideoGamesCritic. Check your connection and try again.';
+  }
+
+  // Search, cached for an hour per query in this browser
+  function search(term){
+    var key = term.toLowerCase();
+    var c = searchCache[key];
+    if (c && Date.now() - c.at < 3600e3) return Promise.resolve(c.games);
+    return api('/search?q=' + encodeURIComponent(term) + '&limit=8').then(function(d){
+      var games = (d && d.games) || [];
+      searchCache[key] = { at: Date.now(), games: games };
+      var keys = Object.keys(searchCache);
+      if (keys.length > 60) delete searchCache[keys[0]];
+      store.set('isg.search', searchCache);
+      return games;
+    });
+  }
+
+  function doSearch(term){
+    term = term.trim();
+    if (term.length < 2) return;
+    lastQuery = term;
+    setStatus('Searching…');
+    search(term).then(function(games){
+      if (term !== lastQuery) return;
+      lastResults = games;
+      setStatus('');
+      renderResults(games);
+    }).catch(function(e){ setStatus(apiError(e), true); });
+  }
+
+  function renderResults(games){
+    if (!games.length){
+      resultsEl.innerHTML = '<p class="note" style="padding:14px">No game by that name. Try another spelling. Or go outside.</p>';
+    } else {
+      resultsEl.innerHTML = games.map(function(g, i){
+        var mine = judged.find(function(j){ return j.slug === g.slug; });
+        var chip = mine
+          ? '<span class="chip t-' + mine.verdict + '">' + SHORT[mine.verdict] + '</span>'
+          : '<span class="chip new">Judge it →</span>';
+        var meta = [g.releaseDate ? g.releaseDate.slice(0, 4) : '', (g.platforms || []).join(', ')].filter(Boolean).join(' · ');
+        var cover = g.art && g.art.cover ? '<img class="thumb" src="' + esc(g.art.cover) + '" alt="" loading="lazy">' : '<span class="thumb"></span>';
+        return '<button type="button" class="res" role="option" data-i="' + i + '">' + cover +
+          '<span class="txt"><span class="n">' + esc(g.name) + '</span><span class="m">' + esc(meta) + (mine ? ' · judged ' + timeAgo(mine.at) : '') + '</span></span>' + chip + '</button>';
+      }).join('') + '<p class="resfoot">Picking a game judges it and adds it to Freshly rated.</p>';
+    }
+    resultsEl.classList.remove('hidden');
+  }
+  function hideResults(){ resultsEl.classList.add('hidden'); }
+
+  function ttlFor(rec){
+    var days = rec.release ? (Date.now() - Date.parse(rec.release)) / 864e5 : 9999;
+    return days < 60 ? 6 * 3600e3 : 24 * 3600e3; // new games refresh faster
+  }
+  function toRecord(d){
+    var s = d.scores || {};
+    var players = s.players != null ? s.players : null;
+    var critics = s.critics != null ? s.critics : null;
+    var basis = players != null ? 'players' : (critics != null ? 'critics' : 'none');
+    return {
+      slug: d.slug, name: d.name,
+      url: d.url || (d.links && d.links.page) || 'https://videogamescritic.com',
+      cover: d.art && d.art.cover || '',
+      release: d.releaseDate || '',
+      year: d.releaseDate ? d.releaseDate.slice(0, 4) : '',
+      genres: (d.genres || []).slice(0, 3),
+      dev: d.developers && d.developers[0] ? d.developers[0].name : '',
+      players: players, critics: critics,
+      criticCount: s.criticCount != null ? s.criticCount : null,
+      confidence: s.confidence || '',
+      playersNow: d.players && d.players.now != null ? d.players.now : null,
+      verdict: tierOf(basis === 'players' ? players : critics),
+      basis: basis,
+      at: Date.now()
+    };
+  }
+
+  function showSteps(name){
+    var i = 0;
+    loadingEl.classList.remove('hidden');
+    function paint(){
+      loadingEl.innerHTML = '<p class="display" style="font-size:30px;color:#502314">Judging ' + esc(name) + '…</p>' +
+        STEPS.map(function(t, k){ return '<div class="step ' + (k < i ? 'done' : k === i ? 'on' : '') + '"><span class="dot" aria-hidden="true"></span>' + esc(t) + '</div>'; }).join('');
+    }
+    paint();
+    var timer = setInterval(function(){ i++; paint(); if (i >= STEPS.length) clearInterval(timer); }, 450);
+    return new Promise(function(res){ setTimeout(function(){ clearInterval(timer); loadingEl.classList.add('hidden'); res(); }, 1500); });
+  }
+
+  function judge(item){
+    if (busy) return;
+    busy = true;
+    hideResults();
+    verdictEl.classList.add('hidden');
+    setStatus('');
+    q.value = item.name;
+    var prev = judged.find(function(j){ return j.slug === item.slug; });
+    var fresh = prev && (Date.now() - prev.at < ttlFor(prev));
+    var fetchIt = fresh ? Promise.resolve(null) : api('/game/' + encodeURIComponent(item.slug)).catch(function(e){ return { _err: e }; });
+    var anim = fresh ? Promise.resolve() : showSteps(item.name);
+    Promise.all([fetchIt, anim]).then(function(out){
+      busy = false;
+      var d = out[0], rec;
+      if (fresh) {
+        rec = prev; // served from cache, no API call
+      } else if (d && !d._err) {
+        rec = toRecord(d);
+      } else if (item.scores) {
+        rec = toRecord(item);
+        setStatus(apiError(d && d._err) + ' Showing the search result’s scores.', true);
+      } else if (prev) {
+        rec = prev;
+        setStatus(apiError(d && d._err) + ' Showing the last saved verdict.', true);
+      } else { setStatus(apiError(d && d._err), true); return; }
+      if (!fresh && prev && prev.verdict !== rec.verdict && rec.verdict !== 'none') rec.flipFrom = prev.verdict;
+      judged = [rec].concat(judged.filter(function(j){ return j.slug !== rec.slug; })).slice(0, 24);
+      store.set('isg.judged', judged);
+      renderVerdict(rec);
+      renderGrid();
+    });
+  }
+
+  function sticker(r){
+    var who = r.basis === 'critics' ? 'Critics say' : r.basis === 'players' ? 'Players say' : 'Verdict';
+    return '<span class="sticker t-' + r.verdict + '"><small>' + who + '</small><span class="display caps">' + LABEL[r.verdict] + '</span></span>';
+  }
+
+  function renderVerdict(r){
+    var v = r.verdict, pt = tierOf(r.players), ct = tierOf(r.critics);
+    var meta = [r.year, r.dev, r.genres.join(', ')].filter(Boolean).join(' · ');
+    var cover = r.cover ? '<img src="' + esc(r.cover) + '" alt="' + esc(r.name) + ' cover art">' : '<div class="ph"></div>';
+    var who = r.basis === 'players' ? 'Players say' : r.basis === 'critics' ? 'Not enough players yet. Critics say' : 'Nobody has an opinion yet.';
+    var gapLine = pt === 'shit' ? (NOT_SHIT - r.players) + ' points short of not shit'
+      : pt === 'giant' ? (SHIT - r.players) + ' points short of regular shit' : '';
+    var meterColor = pt === 'not' ? 'var(--green)' : pt === 'shit' ? 'var(--orange)' : 'var(--red)';
+    var playersBlock = r.players != null
+      ? '<div class="players"><div class="row"><span><strong>Players: ' + r.players + '</strong> / 100' + (gapLine ? ' · ' + gapLine : '') + '</span>' +
+        (r.playersNow != null ? '<span>' + r.playersNow.toLocaleString() + ' playing on Steam right now</span>' : '') + '</div>' +
+        '<div class="meter" aria-hidden="true"><i style="width:' + Math.max(2, Math.min(100, r.players)) + '%;background:' + meterColor + '"></i><b style="left:50%"></b><b style="left:80%"></b></div>' +
+        '<div class="ticks" aria-hidden="true"><span style="left:50%">50</span><span style="left:80%">80</span></div></div>'
+      : '<p class="note">No player score yet.</p>';
+    var critic = '<div class="critic"><span class="display num">' + (r.critics != null ? r.critics : '—') + '</span>' +
+      '<span style="display:flex;flex-direction:column;gap:6px"><span class="kicker">Critics' + (r.criticCount ? ' · ' + r.criticCount + ' reviews' : '') + '</span>' +
+      (ct === 'none' ? '<strong>No critic score</strong>'
+        : '<span class="line"><span class="display">Critics say</span> <span class="chip t-' + ct + '">' + LABEL[ct].replace('!', '') + '</span></span>') + '</span>' +
+      (pt !== 'none' && ct !== 'none' && pt !== ct && r.basis === 'players' ? '<span class="note">The critics disagree. Nobody asked them.</span>' : '') + '</div>';
+    verdictEl.innerHTML =
+      '<div class="cover">' + cover + sticker(r) + '</div>' +
+      '<div class="vbody">' +
+        '<p class="kicker">' + esc(meta) + '</p>' +
+        '<h2 class="vname display">' + esc(r.name) + '</h2>' +
+        '<div class="say"><span class="who display">' + who + '</span><p class="badge display caps t-' + v + '">' + LABEL[v] + '</p></div>' +
+        (r.flipFrom ? '<p class="flip">Verdict flipped! Last time: “' + LABEL[r.flipFrom] + '”</p>' : '') +
+        playersBlock + critic +
+        (r.confidence && r.confidence !== 'high' ? '<p class="note">Confidence: ' + esc(r.confidence) + '. Not many opinions yet.</p>' : '') +
+        '<p class="attr">Scores <a href="' + esc(r.url) + '" target="_blank" rel="noopener">Powered by VideoGamesCritic</a> · checked ' + timeAgo(r.at) + '</p>' +
+      '</div>';
+    verdictEl.classList.remove('hidden');
+    verdictEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function renderGrid(){
+    if (!judged.length){
+      gridEl.innerHTML = '<div class="empty" style="grid-column:1/-1">Nothing judged yet. Search for a game above. Start with one you love, it’s funnier.</div>';
+      return;
+    }
+    gridEl.innerHTML = judged.slice(0, 12).map(function(r, i){
+      var pt = tierOf(r.players), ct = tierOf(r.critics);
+      return '<button type="button" class="card" data-j="' + i + '">' +
+        '<div class="art">' + (r.cover ? '<img src="' + esc(r.cover) + '" alt="" loading="lazy">' : '') + sticker(r) + '</div>' +
+        '<div class="b"><h3>' + esc(r.name) + '</h3><p class="m">' + esc(r.year) + ' · judged ' + timeAgo(r.at) + '</p>' +
+          '<div class="scores">' +
+            '<div class="sbox t-' + pt + '"><span class="l">PLAYERS</span><span class="v">' + (r.players != null ? r.players : '—') + '</span><span class="w">' + SHORT[pt] + '</span></div>' +
+            '<div class="sbox crit"><span class="l">CRITICS</span><span class="v">' + (r.critics != null ? r.critics : '—') + '</span><span class="w">' + SHORT[ct] + '</span></div>' +
+          '</div>' +
+          (pt !== 'none' && ct !== 'none' && pt !== ct ? '<p class="m" style="font-weight:700;color:#A23D00">Critics disagree · irrelevant</p>' : '') +
+        '</div></button>';
+    }).join('');
+  }
+
+  // Events
+  q.addEventListener('input', function(){
+    clearTimeout(debounce);
+    var term = q.value.trim();
+    if (term.length < 3) { hideResults(); return; }
+    debounce = setTimeout(function(){ doSearch(term); }, 700);
+  });
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    clearTimeout(debounce);
+    var term = q.value.trim();
+    if (!resultsEl.classList.contains('hidden') && term === lastQuery && lastResults.length) { judge(lastResults[0]); return; }
+    doSearch(term);
+  });
+  resultsEl.addEventListener('click', function(e){
+    var b = e.target.closest('.res'); if (!b) return;
+    judge(lastResults[+b.getAttribute('data-i')]);
+  });
+  gridEl.addEventListener('click', function(e){
+    var c = e.target.closest('.card'); if (!c) return;
+    judge(judged[+c.getAttribute('data-j')]);
+  });
+  document.addEventListener('click', function(e){ if (!e.target.closest('form.search')) hideResults(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideResults(); });
+  $('clear').addEventListener('click', function(){ judged = []; store.set('isg.judged', judged); renderGrid(); verdictEl.classList.add('hidden'); });
+  $('home').addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  $('key').value = apiKey;
+  $('savekey').addEventListener('click', function(){
+    apiKey = $('key').value.trim(); store.set('isg.key', apiKey);
+    $('quota').textContent = apiKey ? 'Key saved: 5,000 lookups a day.' : 'Free API: 60 lookups per hour.';
+  });
+
+  // Old saved entries used two tiers; re-derive their verdict with the three-tier rule
+  judged.forEach(function(r){ r.verdict = tierOf(r.basis === 'critics' ? r.critics : r.players); delete r.flipFrom; });
+  renderGrid();
+})();
+</script>
+</body>
+</html>
