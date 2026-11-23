@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it as good as Elden Ring?</title>
+<meta name="description" content="Name any game. Find out if it's as good as Elden Ring. (It isn't.)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230A0907'/%3E%3Cpath d='M8 2l3 6-3 6-3-6z' fill='%23C9A961'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0907;--panel:#12100C;--gold:#C9A961;--gold2:#E8D18F;--text:#D8CDB4;--muted:#9A8E78;--line:#3A3226;--blood:#B3261E}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;overflow-x:hidden;color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;
+  background:radial-gradient(ellipse 70% 45% at 50% -8%,rgba(201,169,97,.20),transparent 70%),var(--bg)}
+a{color:var(--gold)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(--gold2);outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cinzel{font-family:Cinzel,Georgia,serif}
+
+main{max-width:900px;margin:0 auto;padding:0 20px}
+.hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:48px 0 40px}
+.orn{display:flex;align-items:center;gap:14px;width:min(320px,70%);color:var(--gold)}
+.orn span{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+.orn i{width:8px;height:8px;border:1px solid var(--gold);transform:rotate(45deg)}
+h1{margin:0;font-family:Cinzel,Georgia,serif;font-weight:600;font-size:clamp(34px,6vw,64px);line-height:1.1;letter-spacing:.04em;color:var(--gold2);text-shadow:0 0 28px rgba(232,209,143,.28);text-wrap:balance}
+.tag{margin:0;font-style:italic;font-size:clamp(20px,2.6vw,26px);color:var(--text)}
+
+form{position:relative;width:100%;max-width:620px;margin-top:18px}
+.bar{display:flex;align-items:stretch;border:1px solid var(--line);border-bottom-color:var(--gold);background:rgba(0,0,0,.45)}
+.bar input{flex:1;min-width:0;border:0;outline:none;background:transparent;color:var(--text);font:500 22px 'Cormorant Garamond',Georgia,serif;padding:16px 18px;caret-color:var(--gold2)}
+.bar input::placeholder{color:#6F6555;font-style:italic}
+.bar button{flex:none;border:0;border-left:1px solid var(--line);background:transparent;color:var(--gold);font:600 14px Cinzel,Georgia,serif;letter-spacing:.22em;text-transform:uppercase;padding:0 22px;cursor:pointer;transition:background .3s,color .3s}
+.bar button:hover{background:var(--gold);color:#0A0907}
+.results{position:absolute;z-index:10;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border:1px solid var(--line);text-align:left;max-height:60vh;overflow:auto;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.res{display:flex;align-items:center;gap:14px;width:100%;border:0;border-bottom:1px solid #1E1A14;background:transparent;padding:10px 14px;cursor:pointer;text-align:left;color:var(--text);font:inherit}
+.res:hover,.res:focus-visible{background:#1A1610}
+.res img,.res .ph{width:38px;height:57px;object-fit:cover;flex:none;background:#1E1A14;border:1px solid var(--line)}
+.res .n{font-size:20px;font-weight:600;line-height:1.15}
+.res .m{font-size:15px;color:var(--muted)}
+.status{min-height:28px;margin:0;font-style:italic;color:var(--muted)}
+.status.err{color:#D9776E}
+.hint{margin:0;font-size:16px;color:var(--muted)}
+.hint button{background:none;border:0;padding:4px 2px;font:italic 16px 'Cormorant Garamond',Georgia,serif;color:var(--gold);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* Showdown */
+.duel{padding:12px 0 72px;text-align:center}
+.approach{margin:0 0 22px;font-family:Cinzel,Georgia,serif;letter-spacing:.3em;font-size:14px;color:var(--muted);text-transform:uppercase;animation:fade 1s ease both}
+.arena{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:clamp(14px,4vw,40px);max-width:720px;margin:0 auto}
+.fighter{display:flex;flex-direction:column;align-items:center;gap:12px}
+.fighter .frame{position:relative;width:100%;max-width:280px}
+.fighter img,.fighter .ph{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:#1E1A14;border:1px solid var(--line);transition:filter 1.4s ease,box-shadow 1.4s ease,border-color 1.4s ease,transform 1.4s ease}
+.fighter.left{animation:inL .8s cubic-bezier(.2,.8,.2,1) both}
+.fighter.right{animation:inR .8s cubic-bezier(.2,.8,.2,1) both}
+.fighter .name{font-family:Cinzel,Georgia,serif;font-weight:600;font-size:clamp(14px,2vw,18px);letter-spacing:.06em;line-height:1.3;color:var(--text);text-wrap:balance}
+.fighter .score{font-size:16px;color:var(--muted)}
+.fighter .label{font-family:Cinzel,Georgia,serif;font-size:13px;letter-spacing:.32em;text-transform:uppercase;opacity:0;transition:opacity 1s ease .3s}
+.vs{font-family:Cinzel,Georgia,serif;font-size:clamp(22px,4vw,34px);color:var(--gold);letter-spacing:.1em;animation:fade 1s ease .5s both}
+.resolved .win img{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 48px rgba(201,169,97,.35)}
+.resolved .lose img{filter:grayscale(1) brightness(.35);transform:scale(.97)}
+.resolved .almost img{filter:brightness(.8) sepia(.15)}
+.resolved .label{opacity:1}
+.win .label{color:var(--gold2)}
+.lose .label{color:var(--blood)}
+.almost .label{color:var(--gold)}
+
+.band{position:relative;left:50%;width:100vw;margin:40px 0 0 -50vw;padding:28px 20px 30px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.82) 18%,rgba(0,0,0,.82) 82%,transparent);opacity:0;transition:opacity 1.6s ease .6s}
+.resolved .band{opacity:1}
+.band h2{margin:0;font-family:Cinzel,Georgia,serif;font-weight:400;font-size:clamp(24px,5vw,54px);letter-spacing:.08em;line-height:1.15;text-transform:uppercase;transform:scale(1.06);transition:transform 2.4s ease .6s}
+.resolved .band h2{transform:scale(1)}
+.band.lose h2{color:var(--blood);text-shadow:0 0 24px rgba(179,38,30,.35)}
+.band.gold h2{color:var(--gold2);text-shadow:0 0 24px rgba(232,209,143,.35)}
+.band p{margin:10px 0 0;font-style:italic;font-size:clamp(19px,2.4vw,24px);color:var(--text)}
+.again{margin-top:28px;background:none;border:1px solid var(--line);color:var(--gold);font:600 13px Cinzel,Georgia,serif;letter-spacing:.24em;text-transform:uppercase;padding:14px 22px;cursor:pointer}
+.again:hover{border-color:var(--gold)}
+.attr{margin:18px 0 0;font-size:15px;color:var(--muted)}
+
+footer{text-align:center;padding:0 20px 40px;font-size:15px;color:var(--muted)}
+footer p{margin:4px 0}
+.hidden{display:none!important}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes inL{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes inR{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@media (max-width:600px){
+  body{font-size:17px}
+  .bar input{font-size:19px;padding:14px}
+  .bar button{padding:0 14px;letter-spacing:.14em;font-size:12px}
+  .fighter .label{font-size:11px;letter-spacing:.2em}
+  .band{margin-top:28px;padding:22px 16px 24px}
+}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero" id="top">
+    <div class="orn" aria-hidden="true"><span></span><i></i><span></span></div>
+    <h1>Is it as good as Elden Ring?</h1>
+    <p class="tag">Nothing is as good as Elden Ring.</p>
+    <form id="form" autocomplete="off">
+      <label class="sr" for="q">Game name</label>
+      <div class="bar">
+        <input id="q" type="search" placeholder="Name a challenger…" aria-controls="results">
+        <button type="submit">Challenge</button>
+      </div>
+      <div class="results hidden" id="results" role="listbox" aria-label="Matching games"></div>
+    </form>
+    <p class="status" id="status" role="status"></p>
+    <p class="hint">Out of ideas? Try <button type="button" data-try="Bloodborne">Bloodborne</button>, <button type="button" data-try="Baldur's Gate 3">Baldur's Gate 3</button> or <button type="button" data-try="Elden Ring Nightreign">Nightreign</button>.</p>
+  </section>
+  <section class="duel hidden" id="duel" aria-live="polite"></section>
+</main>
+<footer>
+  <p>Scores <a href="https://videogamescritic.com" target="_blank" rel="noopener">Powered by VideoGamesCritic</a>.</p>
+  <p>A parody made with love. Not affiliated with FromSoftware or Bandai Namco.</p>
+</footer>
+
+<script>
+(function(){
+  var BASE = 'https://videogamescritic.com';
+  var API = BASE + '/api/v1';
+  var ER_ID = 1245620, ER_DLC_ID = 1000006533, BB_ID = 1000006506;
+  var ER_FALLBACK = { id: ER_ID, slug: 'elden-ring-1245620', name: 'ELDEN RING', url: BASE + '/game/elden-ring-1245620',
+    scores: { players: 85 }, art: { cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900_2x.jpg' } };
+  var LOSE_LINES = ['Nothing is.', 'It never stood a chance.', 'Not even close.', 'Maybe in another age.', 'Try finger, but hole.', 'Be patient. It still won’t be.', 'Elden Ring remains.'];
+
+  var store = {
+    get: function(k, d){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+    set: function(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  };
+  var searchCache = store.get('er.search', {});
+  var lastResults = [], lastQuery = '', debounce = null, busy = false;
+  var $ = function(id){ return document.getElementById(id); };
+  var q = $('q'), resultsEl = $('results'), statusEl = $('status'), duelEl = $('duel');
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function abs(u){ return !u ? '' : u.charAt(0) === '/' ? BASE + u : u; }
+  function norm(s){ return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function hash(s){ var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
+  function setStatus(m, err){ statusEl.textContent = m || ''; statusEl.className = 'status' + (err ? ' err' : ''); }
+
+  function api(path){
+    return fetch(API + path).then(function(r){
+      if (r.status === 429) throw new Error('rate');
+      if (!r.ok) throw new Error('http');
+      return r.json();
+    });
+  }
+  function apiError(e){
+    return e && e.message === 'rate' ? 'The free lookups are spent for this hour (60). Rest at a site of grace and try again.' : 'Could not reach the scores. Try again.';
+  }
+
+  // Elden Ring itself, fetched once a day
+  function eldenRing(){
+    var c = store.get('er.self', null);
+    if (c && Date.now() - c.at < 864e5) return Promise.resolve(c.g);
+    return api('/game/elden-ring-1245620').then(function(g){ store.set('er.self', { at: Date.now(), g: g }); return g; })
+      .catch(function(){ return c ? c.g : ER_FALLBACK; });
+  }
+
+  function search(term){
+    var key = term.toLowerCase(), c = searchCache[key];
+    if (c && Date.now() - c.at < 3600e3) return Promise.resolve(c.games);
+    return api('/search?q=' + encodeURIComponent(term) + '&limit=8').then(function(d){
+      var games = (d && d.games) || [];
+      searchCache[key] = { at: Date.now(), games: games };
+      var keys = Object.keys(searchCache); if (keys.length > 60) delete searchCache[keys[0]];
+      store.set('er.search', searchCache);
+      return games;
+    });
+  }
+
+  function doSearch(term){
+    term = term.trim(); if (term.length < 2) return;
+    lastQuery = term; setStatus('Searching the Lands Between…');
+    search(term).then(function(games){
+      if (term !== lastQuery) return;
+      lastResults = games; setStatus('');
+      if (!games.length) { resultsEl.innerHTML = '<p style="margin:0;padding:16px;font-style:italic">No such game exists. Perhaps it was never born.</p>'; }
+      else {
+        resultsEl.innerHTML = games.map(function(g, i){
+          var c = abs(g.art && g.art.cover);
+          var meta = [g.releaseDate ? g.releaseDate.slice(0, 4) : '', (g.platforms || []).join(', ')].filter(Boolean).join(' · ');
+          return '<button type="button" class="res" role="option" data-i="' + i + '">' + (c ? '<img src="' + esc(c) + '" alt="" loading="lazy">' : '<span class="ph"></span>') +
+            '<span><span class="n">' + esc(g.name) + '</span><br><span class="m">' + esc(meta) + '</span></span></button>';
+        }).join('');
+      }
+      resultsEl.classList.remove('hidden');
+    }).catch(function(e){ setStatus(apiError(e), true); });
+  }
+  function hideResults(){ resultsEl.classList.add('hidden'); }
+
+  function classify(g){
+    var n = norm(g.name);
+    if (g.id === ER_ID || n === 'elden ring') return 'self';
+    if (g.id === ER_DLC_ID || n.indexOf('shadow of the erdtree') !== -1) return 'dlc';
+    if (g.id === BB_ID || n === 'bloodborne') return 'almost';
+    if (n.indexOf('elden ring') !== -1) return 'namesake';
+    return 'lose';
+  }
+
+  function verdict(kind, g, er){
+    var gp = g.scores && g.scores.players, ep = er.scores && er.scores.players;
+    switch (kind) {
+      case 'self': return { band: 'gold', h: 'As good as Elden Ring', p: 'It is Elden Ring. Obviously.', mid: '=', left: 'win', right: 'win', ll: 'Elden Ring', rl: 'Also Elden Ring' };
+      case 'dlc': return { band: 'gold', h: 'As good as Elden Ring', p: 'It’s more Elden Ring. That counts.', mid: '=', left: 'win', right: 'win', ll: 'Elden Ring', rl: 'Elden Ring' };
+      case 'almost': return { band: 'gold', h: 'Almost as good as Elden Ring', p: 'The only one that ever came close.', mid: 'vs', left: 'almost', right: 'win', ll: 'So close', rl: 'Victor' };
+      case 'namesake': return { band: 'lose', h: 'Not as good as Elden Ring', p: 'Having “Elden Ring” in the name doesn’t make it Elden Ring.', mid: 'vs', left: 'lose', right: 'win', ll: 'Felled', rl: 'Victor' };
+      default:
+        var p = (gp != null && ep != null && gp > ep) ? 'Players rate it higher. Players are wrong.' : LOSE_LINES[hash(norm(g.name)) % LOSE_LINES.length];
+        return { band: 'lose', h: 'Not as good as Elden Ring', p: p, mid: 'vs', left: 'lose', right: 'win', ll: 'Felled', rl: 'Victor' };
+    }
+  }
+
+  function fighter(g, side, cls, label){
+    var c = abs(g.art && g.art.cover), s = g.scores && g.scores.players;
+    return '<div class="fighter ' + side + ' ' + cls + '"><div class="frame">' +
+      (c ? '<img src="' + esc(c) + '" alt="' + esc(g.name) + ' cover art">' : '<div class="ph"></div>') + '</div>' +
+      '<span class="label">' + esc(label) + '</span><span class="name">' + esc(g.name) + '</span>' +
+      '<span class="score">' + (s != null ? 'Players: ' + s : 'Players: no score') + '</span></div>';
+  }
+
+  function duel(g){
+    if (busy) return; busy = true;
+    hideResults(); setStatus(''); q.value = g.name;
+    eldenRing().then(function(er){
+      busy = false;
+      var v = verdict(classify(g), g, er);
+      duelEl.innerHTML =
+        '<p class="approach">A challenger approaches</p>' +
+        '<div class="arena">' + fighter(g, 'left', v.left, v.ll) + '<span class="vs" aria-hidden="true">' + v.mid + '</span>' + fighter(er, 'right', v.right, v.rl) + '</div>' +
+        '<div class="band ' + v.band + '"><h2>' + esc(v.h) + '</h2><p>' + esc(v.p) + '</p></div>' +
+        '<button type="button" class="again" id="again">Name another challenger</button>' +
+        '<p class="attr">Player scores <a href="' + esc(g.url || BASE) + '" target="_blank" rel="noopener">Powered by VideoGamesCritic</a>. They don’t matter here.</p>';
+      duelEl.classList.remove('hidden');
+      duelEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function(){ duelEl.classList.add('resolved'); }, 900);
+    });
+  }
+
+  q.addEventListener('input', function(){
+    clearTimeout(debounce);
+    var t = q.value.trim();
+    if (t.length < 3) { hideResults(); return; }
+    debounce = setTimeout(function(){ doSearch(t); }, 700);
+  });
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault(); clearTimeout(debounce);
+    var t = q.value.trim();
+    if (!resultsEl.classList.contains('hidden') && t === lastQuery && lastResults.length) { duel(lastResults[0]); return; }
+    doSearch(t);
+  });
+  resultsEl.addEventListener('click', function(e){
+    var b = e.target.closest('.res'); if (!b) return;
+    duel(lastResults[+b.getAttribute('data-i')]);
+  });
+  document.querySelector('.hint').addEventListener('click', function(e){
+    var b = e.target.closest('[data-try]'); if (!b) return;
+    q.value = b.getAttribute('data-try'); doSearch(q.value); q.focus();
+  });
+  duelEl.addEventListener('click', function(e){
+    if (!e.target.closest('#again')) return;
+    duelEl.classList.remove('resolved'); duelEl.classList.add('hidden');
+    q.value = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function(){ q.focus(); }, 400);
+  });
+  document.addEventListener('click', function(e){ if (!e.target.closest('form')) hideResults(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideResults(); });
+})();
+</script>
+</body>
+</html>

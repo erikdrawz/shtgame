@@ -264,6 +264,7 @@ footer p{margin:0}
   var q = $('q'), resultsEl = $('results'), statusEl = $('status'), loadingEl = $('loading'), verdictEl = $('verdict'), gridEl = $('grid');
 
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function abs(u){ return !u ? '' : u.charAt(0) === '/' ? 'https://videogamescritic.com' + u : u; }
   function tierOf(score){ return score == null ? 'none' : score >= NOT_SHIT ? 'not' : score >= SHIT ? 'shit' : 'giant'; }
   function timeAgo(t){
     var s = Math.round((Date.now() - t) / 1000);
@@ -328,7 +329,7 @@ footer p{margin:0}
           ? '<span class="chip t-' + mine.verdict + '">' + SHORT[mine.verdict] + '</span>'
           : '<span class="chip new">Judge it →</span>';
         var meta = [g.releaseDate ? g.releaseDate.slice(0, 4) : '', (g.platforms || []).join(', ')].filter(Boolean).join(' · ');
-        var cover = g.art && g.art.cover ? '<img class="thumb" src="' + esc(g.art.cover) + '" alt="" loading="lazy">' : '<span class="thumb"></span>';
+        var cover = g.art && g.art.cover ? '<img class="thumb" src="' + esc(abs(g.art.cover)) + '" alt="" loading="lazy">' : '<span class="thumb"></span>';
         return '<button type="button" class="res" role="option" data-i="' + i + '">' + cover +
           '<span class="txt"><span class="n">' + esc(g.name) + '</span><span class="m">' + esc(meta) + (mine ? ' · judged ' + timeAgo(mine.at) : '') + '</span></span>' + chip + '</button>';
       }).join('') + '<p class="resfoot">Picking a game judges it and adds it to Freshly rated.</p>';
@@ -349,7 +350,7 @@ footer p{margin:0}
     return {
       slug: d.slug, name: d.name,
       url: d.url || (d.links && d.links.page) || 'https://videogamescritic.com',
-      cover: d.art && d.art.cover || '',
+      cover: abs(d.art && d.art.cover),
       release: d.releaseDate || '',
       year: d.releaseDate ? d.releaseDate.slice(0, 4) : '',
       genres: (d.genres || []).slice(0, 3),
